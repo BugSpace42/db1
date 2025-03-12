@@ -1,0 +1,92 @@
+-- creating enums
+CREATE TYPE type_of_creature AS ENUM (
+ 'птица',
+ 'насекомое',
+ 'другое',
+ 'не определено'
+);
+
+CREATE TYPE height_of_forest AS ENUM (
+ 'низкий',
+ 'средний',
+ 'высокий',
+ 'не определено'
+);
+
+
+-- creating domains
+CREATE DOMAIN positive_integer AS INTEGER
+CHECK (VALUE >= 0);
+
+CREATE DOMAIN frequency AS FLOAT
+CHECK (VALUE >= 0 AND VALUE <= 1);
+
+CREATE DOMAIN height_constraint AS positive_integer;
+
+
+-- creating tables
+CREATE TABLE plateau (
+ id SERIAL PRIMARY KEY,
+ height height_constraint NOT NULL
+);
+
+CREATE TABLE forest (
+ id SERIAL PRIMARY KEY,
+ plateau_id INT REFERENCES plateau(id),
+ height height_of_forest NOT NULL,
+ trees_frequency frequency
+);
+
+CREATE TABLE winged_creature (
+ id SERIAL PRIMARY KEY,
+ type type_of_creature NOT NULL
+);
+
+CREATE TABLE creature_speed (
+ creature_id INT PRIMARY KEY REFERENCES winged_creature(id),
+ speed positive_integer
+);
+
+CREATE TABLE creature_location (
+ creature_id INT PRIMARY KEY REFERENCES winged_creature(id),
+ forest_id INT REFERENCES forest(id)
+);
+
+CREATE TABLE creature_direction_of_movement (
+ creature_id INT PRIMARY KEY REFERENCES winged_creature(id),
+ arrival_forest_id INT REFERENCES forest(id)
+);
+
+CREATE TABLE ship (
+ id SERIAL PRIMARY KEY,
+ name TEXT UNIQUE
+);
+
+CREATE TABLE ship_speed (
+ ship_id INT PRIMARY KEY REFERENCES ship(id),
+ speed positive_integer
+);
+
+CREATE TABLE ship_location (
+ ship_id INT PRIMARY KEY REFERENCES ship(id),
+ plateau_id INT REFERENCES plateau(id)
+);
+
+CREATE TABLE ship_direction_of_movement (
+ ship_id INT PRIMARY KEY REFERENCES ship(id),
+ arrival_plateau_id INT REFERENCES plateau(id)
+);
+
+CREATE TABLE human (
+ id SERIAL PRIMARY KEY,
+ name TEXT NOT NULL,
+ surname TEXT NOT NULL,
+ patronymic TEXT
+);
+
+CREATE TABLE human_ship (
+ human_id INT REFERENCES human(id),
+ ship_id INT REFERENCES ship(id),
+ expedition_number INT,
+ PRIMARY KEY (human_id, ship_id, expedition_number)
+);

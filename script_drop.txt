@@ -1,0 +1,22 @@
+-- dropping tables 
+DROP TABLE IF EXISTS plateau CASCADE;
+DROP TABLE IF EXISTS forest CASCADE;
+DROP TABLE IF EXISTS winged_creature CASCADE;
+DROP TABLE IF EXISTS creature_speed CASCADE;
+DROP TABLE IF EXISTS creature_location CASCADE;
+DROP TABLE IF EXISTS creature_direction_of_movement CASCADE;
+DROP TABLE IF EXISTS ship CASCADE;
+DROP TABLE IF EXISTS ship_speed CASCADE;
+DROP TABLE IF EXISTS ship_location CASCADE;
+DROP TABLE IF EXISTS ship_direction_of_movement CASCADE;
+DROP TABLE IF EXISTS human CASCADE;
+DROP TABLE IF EXISTS human_ship CASCADE;
+
+-- dropping enum types
+DROP TYPE IF EXISTS type_of_creature CASCADE;
+DROP TYPE IF EXISTS height_of_forest CASCADE;
+
+-- dropping domains
+DROP DOMAIN IF EXISTS positive_integer CASCADE;
+DROP DOMAIN IF EXISTS frequency CASCADE;
+DROP DOMAIN IF EXISTS height_constraint CASCADE;
